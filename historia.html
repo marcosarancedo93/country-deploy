@@ -476,6 +476,64 @@
     <img src="historia/IMG_7104.jpeg" alt="Nueva York" style="object-position: center 30%;">
   </div>
 
+  <div class="cell" style="aspect-ratio:3/4;">
+    <img src="historia/IMG_hiking_valley.jpeg" alt="Grand Teton, Wyoming" style="object-position: center 40%;">
+  </div>
+
+  <div class="cell" style="aspect-ratio:3/4;">
+    <img src="historia/IMG_zion_sunset.jpeg" alt="Zion National Park, Utah" style="object-position: center 50%;">
+  </div>
+
+  <div class="cell cell-wide" style="aspect-ratio:16/9;">
+    <img src="historia/IMG_dunes.jpeg" alt="Dunas, Mojave" style="object-position: center 40%;">
+  </div>
+
+  <div class="cell cell-wide" style="aspect-ratio:16/9;">
+    <img src="historia/IMG_haybales.jpeg" alt="Campo americano" style="object-position: center 50%;">
+  </div>
+
+</div>
+
+<!-- BLOQUE INTERMEDIO: Texto + Jeep en camino de tierra -->
+<div class="story-block">
+  <div class="story-photo">
+    <img src="historia/IMG_jeep_road.jpeg" alt="Nevada, camino de tierra" style="object-position: center 50%;">
+    <div class="cap">Nevada · Camino de tierra</div>
+  </div>
+  <div class="story-text">
+    <p>Lo que más me quedó no fueron los lugares. Fueron las personas.</p>
+    <p>Gente de todas partes del mundo — de países que yo ni sabía pronunciar, con historias que hacían que la mía pareciera chica. Las conocí en hostales, en estaciones de servicio, en el asiento de al lado en algún bus de noche. Algunos los crucé un rato. Otros se quedaron para siempre.</p>
+    <p>Viví pueblos que no existen en ningún mapa turístico. Lugares donde todos se conocen, donde la única luz de noche es la del porche de la casa de enfrente. El tipo de silencio que te obliga a pensar.</p>
+    <p class="pull">No todo fue alegría. Hubo momentos muy difíciles — de esos que entran cuando dejás la puerta entreabierta y la vida no pide permiso para pasar. Momentos de distancia, de duda, de empezar de cero varias veces.</p>
+    <p>Pero hoy, mirando hacia atrás, lo único que siento es gratitud. Con los lugares. Con las personas que me abrieron su casa, su mesa, su tiempo. Con la versión de mí mismo que eligió quedarse cuando podía irse.</p>
+    <p>Es simplemente indescriptible en palabras.</p>
+  </div>
+</div>
+
+<!-- GRILLA 3: Washington + nieve DC -->
+<div class="grid">
+
+  <div class="cell" style="aspect-ratio:3/4;">
+    <img src="historia/IMG_washington.jpeg" alt="Washington D.C., el Mall" style="object-position: center 40%;">
+  </div>
+
+  <div class="cell" style="aspect-ratio:3/4;">
+    <img src="historia/IMG_snow_dc.jpeg" alt="Washington D.C., nevada" style="object-position: center 50%;">
+  </div>
+
+</div>
+
+<!-- GRILLA 4: Secuoyas, carneros, caballo, trailer, cachorro -->
+<div class="grid">
+
+  <div class="cell cell-tall">
+    <img src="historia/IMG_sequoia.jpeg" alt="Sequoia National Park, California" style="object-position: center 50%;">
+  </div>
+
+  <div class="cell" style="aspect-ratio:3/4;">
+    <img src="historia/IMG_horse.jpeg" alt="Las Vegas, con el caballo" style="object-position: center 40%;">
+  </div>
+
 </div>
 
 <!-- BLOQUE 2: Texto + bici Florida -->
@@ -516,6 +574,12 @@
   <div class="strip-cell">
     <img src="historia/IMG_7406.jpeg" alt="Florida, playa" style="object-position: center 35%;">
   </div>
+  <div class="strip-cell">
+    <img src="hero_canyon.jpg" alt="Grand Canyon of Yellowstone, Wyoming" style="object-position: center 40%;">
+  </div>
+  <div class="strip-cell">
+    <img src="hero_rushmore.jpg" alt="Mount Rushmore, Dakota del Sur" style="object-position: center 30%;">
+  </div>
 </div>
 
 <!-- CIERRE NARRATIVO -->
@@ -523,6 +587,18 @@
   <p class="big">Cuando volví a Argentina traía todo eso encima.</p>
   <p>La madera sin pintar, la piedra, la cerámica, el lino. Los colores que vienen de la tierra. Ese ambiente que hace que una casa se sienta hogar desde temprano.</p>
 </section>
+
+<!-- REFLEXIÓN: muchas vidas -->
+<section class="narrative-close" style="padding-top: 0;">
+  <p>En el camino, cuando le contaba todo esto a la gente, muchos se sorprendían. Me decían que tuve muchas vidas. Que cómo había hecho tanto. Que de dónde sacaba la energía.</p>
+  <p class="big" style="margin-top: 28px; border-left: 2px solid #c4a87a; padding-left: 20px; text-align: left;">"Solo tenemos una.<br>No guardes nada.<br>No guardes nada para el momento perfecto."</p>
+  <p>El momento perfecto no llega. Lo construís ahora, con lo que tenés, o no lo construís nunca.</p>
+</section>
+
+<!-- FOTO EDITORIAL: Lupinas -->
+<div style="width:100%; overflow:hidden; line-height:0;">
+  <img src="hero_lupines.jpg" alt="Lupinas, norte de Wyoming" style="width:100%; aspect-ratio:16/9; object-fit:cover; object-position:center 55%; display:block;">
+</div>
 
 <!-- POEMA VIDA -->
 <section style="position:relative; overflow:hidden; background:#1a1208;">
@@ -578,6 +654,28 @@
 </section>
 
 <audio id="bgMusic" src="historia/music.mp3" loop preload="none"></audio>
+
+<!-- HINT PLAY — aparece 1 vez, 3 segundos -->
+<div id="music-hint" style="
+  position: fixed;
+  bottom: 78px;
+  right: 10px;
+  background: rgba(247,242,236,0.96);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(196,168,122,0.45);
+  border-radius: 20px;
+  padding: 7px 13px 7px 11px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.74em;
+  letter-spacing: 0.4px;
+  color: #3a2e20;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 199;
+">♪ &nbsp;Mejor con música</div>
 
 <button id="musicBtn" title="Música" onclick="toggleMusic()" style="
   position: fixed;
@@ -648,6 +746,15 @@
       else { music.pause(); clearInterval(v); }
     }, 80);
   }
+
+  // Hint play — siempre al abrir
+  const hint = document.getElementById('music-hint');
+  setTimeout(function() {
+    hint.style.opacity = '1';
+    setTimeout(function() {
+      hint.style.opacity = '0';
+    }, 5000);
+  }, 900);
 </script>
 
 </body>
