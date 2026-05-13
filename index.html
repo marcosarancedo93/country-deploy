@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
+<!-- v2 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -488,6 +489,883 @@
     background: #25D366; color: white; padding: 12px 20px;
     border-radius: 50px; text-decoration: none; font-size: 0.9em; font-weight: 600;
   }
+
+  /* ===== TOP NAV ===== */
+  .cart-fab { display: none !important; }
+
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    background: #2c1f0e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    height: 54px;
+    border-bottom: 1px solid rgba(196,168,122,0.2);
+    flex-shrink: 0;
+  }
+  .tn-btn {
+    background: none;
+    border: none;
+    color: #f5ead8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 6px;
+    position: relative;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tn-btn:hover { background: rgba(255,255,255,0.08); }
+  .tn-logo {
+    font-family: 'Forum', serif;
+    font-size: 1.25em;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: #f5ead8;
+    user-select: none;
+  }
+  .tn-badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background: #c4a87a;
+    color: #2c1f0e;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 0.62em;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .tn-badge.visible { display: flex; }
+
+  /* ===== NAV DRAWER ===== */
+  .nav-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .nav-drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: min(300px, 82vw);
+    height: 100dvh;
+    background: #2c1f0e;
+    z-index: 700;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+  .nav-drawer.open { left: 0; }
+  .nav-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(196,168,122,0.2);
+    flex-shrink: 0;
+  }
+  .nav-drawer-logo {
+    font-family: 'Forum', serif;
+    font-size: 1.05em;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #f5ead8;
+  }
+  .nav-drawer-close {
+    background: none;
+    border: none;
+    color: rgba(245,234,216,0.55);
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 6px;
+    line-height: 1;
+  }
+  .nav-drawer-items { flex: 1; padding: 6px 0; }
+  .nav-drawer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 17px 24px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(196,168,122,0.1);
+    color: rgba(245,234,216,0.65);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.88em;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-drawer-item:hover { background: rgba(255,255,255,0.04); color: #f5ead8; }
+  .nav-drawer-item.active { color: #f5ead8; background: rgba(196,168,122,0.08); }
+  .nav-drawer-social {
+    padding: 20px 24px 32px;
+    border-top: 1px solid rgba(196,168,122,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .nav-drawer-social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(245,234,216,0.45);
+    text-decoration: none;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-drawer-social-link:hover { color: rgba(245,234,216,0.8); }
+
+  /* Colección submenu */
+  .nav-drawer-submenu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.28s ease;
+    background: rgba(0,0,0,0.15);
+  }
+  .nav-drawer-submenu.open { max-height: 180px; }
+  .nav-drawer-subitem {
+    display: block;
+    width: 100%;
+    padding: 14px 24px 14px 38px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(196,168,122,0.08);
+    color: rgba(245,234,216,0.5);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-drawer-subitem:hover { color: #f5ead8; background: rgba(255,255,255,0.04); }
+  .col-chevron { transition: transform 0.25s ease; }
+  .col-chevron.open { transform: rotate(90deg); }
+
+  /* ===== PAGE SECTIONS ===== */
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  /* ===== NOSOTROS ===== */
+  .nosotros-section {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+    text-align: center;
+  }
+  .nos-eyebrow {
+    font-size: 0.68em;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c4a87a;
+    margin-bottom: 18px;
+  }
+  .nos-title {
+    font-family: 'Forum', serif;
+    font-size: 3.2em;
+    color: #2c1f0e;
+    letter-spacing: 6px;
+    font-weight: 400;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .nos-hero-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 16px;
+    margin: 0 auto 36px;
+    display: block;
+    opacity: 0.92;
+  }
+  .nos-divider { width: 44px; height: 1px; background: #c4a87a; margin: 0 auto 32px; }
+  .nos-body {
+    font-size: 1.02em;
+    line-height: 1.95;
+    color: #4a3520;
+    font-weight: 300;
+    text-align: center;
+  }
+  .nos-body p + p { margin-top: 20px; }
+  @media (max-width: 560px) {
+    .nos-title { font-size: 2.2em; letter-spacing: 3px; }
+    .nos-hero-img { width: 150px; height: 150px; }
+    .nosotros-section { padding: 36px 20px 60px; }
+  }
+
+  /* ===== CONTACTO ===== */
+  .contacto-section {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 52px 24px 72px;
+    text-align: center;
+  }
+  .con-eyebrow {
+    font-size: 0.68em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c4a87a;
+    margin-bottom: 10px;
+  }
+  .con-title {
+    font-family: 'Forum', serif;
+    font-size: 2em;
+    color: #2c1f0e;
+    letter-spacing: 3px;
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+  .con-sub { font-size: 0.8em; color: #8a6840; margin-bottom: 36px; line-height: 1.7; }
+  .con-divider { width: 44px; height: 1px; background: #c4a87a; margin: 0 auto 36px; }
+  .con-cards { display: flex; flex-direction: column; gap: 12px; }
+  .con-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    border: 1px solid #e8d5b5;
+    border-radius: 8px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: #2c1f0e;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: left;
+  }
+  .con-card:hover { border-color: #c4a87a; box-shadow: 0 3px 14px rgba(0,0,0,0.08); }
+  .con-card-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .con-card-label {
+    font-size: 0.66em; letter-spacing: 2px; text-transform: uppercase;
+    color: #8a6840; margin-bottom: 3px;
+  }
+  .con-card-value { font-size: 0.88em; font-weight: 500; color: #2c1f0e; }
+  @media (max-width: 480px) {
+    .contacto-section { padding: 32px 18px 56px; }
+    .con-title { font-size: 1.6em; }
+  }
+
+  /* ===== COLECCIÓN EDITORIAL ===== */
+  .coleccion-header {
+    text-align: center;
+    padding: 44px 20px 32px;
+    background: #f5f0eb;
+  }
+  .coleccion-header-eyebrow {
+    font-size: 0.68em;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c4a87a;
+    margin-bottom: 10px;
+  }
+  .coleccion-header-title {
+    font-family: 'Forum', serif;
+    font-size: 2.6em;
+    color: #2c1f0e;
+    letter-spacing: 8px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .coleccion-header-sub {
+    font-size: 0.82em;
+    color: #8a6840;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+  .catalog {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: #d4c4a8;
+  }
+  .product {
+    background: #f5f0eb;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  .main-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+  .thumbnails {
+    gap: 4px;
+    padding: 5px 6px;
+    background: #ede8e0;
+  }
+  .thumbnails img { width: 36px; height: 36px; }
+  .product-info { padding: 10px 12px 14px; }
+  .product-name {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #2c1f0e;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+  .product-desc { display: none; }
+  .product-tag { display: none; }
+  .product-price {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1em;
+    color: #2c1f0e;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  .add-to-cart { display: none; }
+  @media (min-width: 900px) {
+    .catalog { grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 0 auto; }
+    .coleccion-header { padding: 52px 20px 36px; }
+    .coleccion-header-title { font-size: 3em; }
+  }
+  @media (max-width: 480px) {
+    .coleccion-header { padding: 28px 16px 20px; }
+    .coleccion-header-title { font-size: 1.9em; letter-spacing: 5px; }
+    .main-photo { aspect-ratio: 3 / 4; }
+  }
+
+  /* ===== COLECCIÓN SUBNAV ===== */
+  .coleccion-subnav {
+    display: flex;
+    justify-content: center;
+    background: #f5f0eb;
+    border-bottom: 1px solid #d4c4a8;
+    position: sticky;
+    top: 54px;
+    z-index: 400;
+  }
+  .csn-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #8a6840;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.72em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 13px 22px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  .csn-btn:hover { color: #2c1f0e; }
+  .csn-btn.active { color: #2c1f0e; border-bottom-color: #2c1f0e; font-weight: 600; }
+  @media (max-width: 480px) {
+    .csn-btn { font-size: 0.66em; padding: 11px 14px; letter-spacing: 1.5px; }
+  }
+
+  /* ===== PRODUCT DETAIL PAGE ===== */
+  .product { cursor: pointer; }
+  .product-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: #f5f0eb;
+    z-index: 1500;
+    display: none;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .product-modal-overlay.open { display: block; }
+  .product-modal {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    background: #f5f0eb;
+  }
+  @keyframes pmSlideIn {
+    from { transform: translateX(24px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  .product-modal-overlay.open .product-modal { animation: pmSlideIn 0.22s ease; }
+
+  /* Top bar */
+  .pm-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f5f0eb;
+    border-bottom: 1px solid #e0d6c8;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+  }
+  .pm-back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6em;
+    color: #2c1f0e;
+    line-height: 1;
+    padding: 2px 12px 2px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pm-topbar-brand {
+    font-family: 'Forum', serif;
+    font-size: 0.95em;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #2c1f0e;
+    flex: 1;
+    text-align: center;
+    padding-right: 28px;
+  }
+
+  /* Photo */
+  .pm-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #ede8e0;
+  }
+  .pm-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.15s;
+  }
+  .pm-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.82);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.4em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2c1f0e;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pm-prev { left: 12px; }
+  .pm-next { right: 12px; }
+  .pm-counter {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    background: rgba(0,0,0,0.42);
+    color: white;
+    font-size: 0.72em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* Thumbnails */
+  .pm-thumbs {
+    display: flex;
+    gap: 5px;
+    padding: 10px 14px;
+    background: #ede8e0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pm-thumbs::-webkit-scrollbar { display: none; }
+  .pm-thumb {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pm-thumb.active { border-color: #2c1f0e; }
+
+  /* Product info */
+  .pm-info { padding: 22px 20px 4px; }
+  .pm-tag {
+    font-size: 0.65em;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #c4a87a;
+    margin-bottom: 6px;
+  }
+  .pm-name {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.35em;
+    font-weight: 700;
+    color: #2c1f0e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .pm-price {
+    font-size: 1.75em;
+    color: #2c1f0e;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  /* Description section — Outback style */
+  .pm-section { border-top: 1px solid #d4c8b8; }
+  .pm-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pm-section-title {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #2c1f0e;
+  }
+  .pm-section-icon {
+    font-size: 1.4em;
+    font-weight: 300;
+    color: #2c1f0e;
+    line-height: 1;
+  }
+  .pm-desc {
+    font-size: 0.9em;
+    color: #5a4a38;
+    line-height: 1.85;
+    font-weight: 300;
+    padding: 0 20px 24px;
+  }
+  .pm-desc.hidden { display: none; }
+
+  /* Add to cart */
+  .pm-add-btn {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 24px 20px 56px;
+    padding: 16px;
+    background: #2c1f0e;
+    color: #f5ead8;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.84em;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pm-add-btn:hover { background: #3a2e20; }
+  .pm-add-btn.added { background: #5a7a4a; }
+
+  /* ===== PORTADA ===== */
+  .portada-hero {
+    position: relative;
+    width: 100%;
+    height: 92vh;
+    min-height: 500px;
+    max-height: 820px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .portada-hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .portada-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.05) 35%,
+      rgba(20,12,4,0.55) 70%,
+      rgba(20,12,4,0.82) 100%
+    );
+  }
+  .portada-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 28px 52px;
+    width: 100%;
+    text-align: center;
+  }
+  .portada-hero-eyebrow {
+    font-size: 0.68em;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(245,234,216,0.75);
+    margin-bottom: 10px;
+  }
+  .portada-hero-title {
+    font-family: 'Forum', serif;
+    font-size: 3.8em;
+    font-weight: 400;
+    letter-spacing: 14px;
+    text-transform: uppercase;
+    color: #f5ead8;
+    line-height: 1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+  }
+  .portada-hero-sub {
+    font-size: 0.75em;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(245,234,216,0.8);
+    margin-bottom: 24px;
+  }
+  .portada-hero-divider {
+    width: 48px;
+    height: 1px;
+    background: #c4a87a;
+    margin: 0 auto 24px;
+    opacity: 0.8;
+  }
+  .portada-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(245,234,216,0.12);
+    border: 1px solid rgba(245,234,216,0.5);
+    backdrop-filter: blur(4px);
+    color: #f5ead8;
+    border-radius: 2px;
+    padding: 15px 36px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .portada-hero-cta:hover { background: rgba(245,234,216,0.22); border-color: rgba(245,234,216,0.8); }
+
+  .portada-info {
+    background: #2c1f0e;
+    color: #f5ead8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    font-size: 0.78em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .portada-info span { color: #c4a87a; }
+
+  .portada-features {
+    background: #f5f0eb;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .portada-feat {
+    text-align: center;
+    padding: 34px 18px 30px;
+    border-right: 1px solid #e0d4c0;
+  }
+  .portada-feat:last-child { border-right: none; }
+  .portada-feat-icon { margin-bottom: 12px; display: flex; justify-content: center; }
+  .portada-feat-title {
+    font-family: 'Forum', serif;
+    font-size: 0.92em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #2c1f0e;
+    margin-bottom: 7px;
+  }
+  .portada-feat-desc { font-size: 0.75em; color: #8a7060; line-height: 1.6; font-weight: 300; }
+
+  .portada-cta-bar {
+    background: #f5f0eb;
+    text-align: center;
+    padding: 40px 20px 56px;
+    border-top: 1px solid #e0d4c0;
+  }
+  .portada-cta-bar p {
+    font-size: 0.8em;
+    color: #8a6840;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    font-weight: 300;
+  }
+  .portada-cta-bar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #2c1f0e;
+    color: #f5ead8;
+    border: none;
+    border-radius: 2px;
+    padding: 16px 40px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.84em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .portada-cta-bar button:hover { background: #3a2e20; }
+
+  @media (min-width: 769px) {
+    .portada-hero { height: 65vh; max-height: 620px; align-items: center; }
+    .portada-hero-content { padding: 0 40px; }
+    .portada-hero-title { font-size: 5em; letter-spacing: 18px; }
+  }
+
+  /* === FOUNDER SECTION === */
+  .portada-founder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    max-width: 960px;
+    margin: 56px auto 0;
+    padding: 56px 40px;
+    align-items: center;
+    border-top: 1px solid #e0d4c0;
+  }
+  .portada-founder-photo {
+    position: relative;
+  }
+  .portada-founder-photo img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    object-position: center 65%;
+    display: block;
+    border-radius: 3px;
+    filter: sepia(18%) saturate(85%) brightness(0.96) contrast(1.02);
+    border: 1px solid #d4c4a8;
+    box-shadow: 8px 8px 0 #c4a87a;
+  }
+  .portada-founder-eyebrow {
+    font-size: 0.68em;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #c4a87a;
+    margin-bottom: 14px;
+  }
+  .portada-founder-title {
+    font-family: 'Forum', serif;
+    font-size: 2.4em;
+    font-weight: 400;
+    color: #2c1f0e;
+    letter-spacing: 2px;
+    line-height: 1.15;
+    margin-bottom: 22px;
+  }
+  .portada-founder-body {
+    font-size: 0.88em;
+    font-weight: 300;
+    color: #5c4830;
+    line-height: 1.85;
+    margin-bottom: 32px;
+  }
+  .portada-founder-body p { margin-bottom: 14px; }
+  .portada-founder-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2c1f0e;
+    color: #f5ead8;
+    border: none;
+    padding: 13px 28px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.78em;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .portada-founder-btn:hover { background: #3a2e20; }
+  .portada-founder-ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.72em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a6840;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .portada-founder-ig:hover { color: #2c1f0e; }
+  @media (max-width: 768px) {
+    .portada-founder {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 40px 24px;
+      margin-top: 0;
+    }
+    .portada-founder-photo img {
+      height: 460px;
+      box-shadow: 5px 5px 0 #c4a87a;
+    }
+    .portada-founder-title { font-size: 1.9em; }
+  }
+
+  @media (max-width: 768px) {
+    .portada-hero { height: 88vh; }
+    .portada-hero-title { font-size: 2.6em; letter-spacing: 8px; }
+    .portada-hero-content { padding: 0 20px 44px; }
+    .portada-features { grid-template-columns: 1fr; }
+    .portada-feat { border-right: none; border-bottom: 1px solid #e0d4c0; padding: 26px 24px; }
+    .portada-feat:last-child { border-bottom: none; }
+  }
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -504,6 +1382,73 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
 <!-- End Meta Pixel -->
 </head>
 <body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <button class="tn-btn" onclick="toggleDrawer()" aria-label="Menú">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="tn-logo" onclick="showSection('portada')" style="cursor:pointer;">Country</div>
+  <button class="tn-btn" onclick="openCart()" aria-label="Carrito">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+    <span class="tn-badge" id="tn-badge"></span>
+  </button>
+</nav>
+
+<!-- NAV DRAWER OVERLAY -->
+<div class="nav-drawer-overlay" id="nav-drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- NAV DRAWER -->
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-head">
+    <div class="nav-drawer-logo">Country</div>
+    <button class="nav-drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="nav-drawer-items">
+    <button class="nav-drawer-item" data-section="coleccion" onclick="showSection('coleccion')">
+      <span>Colección</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="nav-drawer-item" data-section="nosotros" onclick="showSection('nosotros')">
+      <span>Nosotros</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="nav-drawer-item" data-section="contacto" onclick="showSection('contacto')">
+      <span>Contacto</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="nav-drawer-social">
+    <a href="https://instagram.com/country.homedeco" target="_blank" class="nav-drawer-social-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+      </svg>
+      @country.homedeco
+    </a>
+    <a href="https://wa.me/541131655653" target="_blank" class="nav-drawer-social-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.41A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+      </svg>
+      WhatsApp
+    </a>
+    <a href="https://listado.mercadolibre.com.ar/_CustId_3282679258" target="_blank" class="nav-drawer-social-link">
+      <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="16" fill="#FFE600"/>
+        <path d="M8 13l4 6 4-6 4 6 4-6" stroke="#2d3277" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      MercadoLibre
+    </a>
+  </div>
+</div>
 
 <!-- CARRITO FAB -->
 <button class="cart-fab" onclick="openCart()">
@@ -539,6 +1484,10 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
         <div class="fg"><label>Email *</label><input type="email" id="f-email" placeholder="tu@email.com"></div>
       </div>
       <div class="fg"><label>Dirección *</label><input type="text" id="f-address" placeholder="Calle y número"></div>
+      <div class="fg-row">
+        <div class="fg"><label>Piso / Dpto</label><input type="text" id="f-floor" placeholder="Ej: 3° B"></div>
+        <div class="fg"><label>Edificio / Torre</label><input type="text" id="f-building" placeholder="Opcional"></div>
+      </div>
       <div class="fg-row">
         <div class="fg"><label>Ciudad *</label><input type="text" id="f-city" placeholder="Ciudad"></div>
         <div class="fg">
@@ -593,7 +1542,7 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
       <div id="resumen-pago" style="margin-bottom:14px;"></div>
       <div class="pay-opt" id="pay-mp" onclick="selectPay('mp')">
         <span class="pay-opt-icon">MP</span>
-        <div><div class="pay-opt-name">Mercado Pago</div><div class="pay-opt-detail">Tarjetas, débito, cuotas sin interés</div></div>
+        <div><div class="pay-opt-name">Mercado Pago</div><div class="pay-opt-detail">Tarjetas, débito, hasta 12 cuotas</div></div>
       </div>
       <div class="pay-opt" id="pay-transfer" onclick="selectPay('transfer')">
         <span class="pay-opt-icon">TR</span>
@@ -604,7 +1553,7 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
         <div class="transfer-row"><span class="transfer-label">CVU</span><span class="transfer-value" style="font-size:0.82em;">0000003100099040747536</span></div>
         <div class="transfer-row" id="transfer-amount-row"><span class="transfer-label">Monto</span><span class="transfer-value" id="transfer-amount">—</span></div>
       </div>
-      <button class="btn-mp visible" id="btn-pay-mp" onclick="payWithMP()">Pagar con Mercado Pago</button>
+      <button class="btn-mp" id="btn-pay-mp" onclick="payWithMP()">Pagar con Mercado Pago</button>
       <button class="btn-transfer" id="btn-transfer" onclick="confirmTransfer()">Ya transferí — Confirmar pedido</button>
     </div>
 
@@ -635,62 +1584,198 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
 <!-- POPUP BIENVENIDA -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
+    <img src="country_horse.png" alt="Country" style="width:64px;height:64px;object-fit:contain;margin:0 auto 10px;display:block;border-radius:12px;">
     <div class="modal-logo">Country</div>
     <div class="modal-divider"></div>
-    <h2>Precios Directos</h2>
-    <div class="modal-sub">Colección Privada · Home &amp; Deco</div>
+    <h2>Tienda Oficial</h2>
+    <div class="modal-sub">Home &amp; Deco · Argentina</div>
     <div class="modal-items">
       <div class="modal-item">
-        <span>Los precios que ves son <strong>precios directos</strong>, sin pasar por plataformas. Son más bajos que en MercadoLibre.</span>
+        <span style="color:#5a7a4a;font-weight:600;margin-right:6px;">✓</span>
+        <span>Precios <strong>directos</strong> — más bajos que en MercadoLibre, sin intermediarios.</span>
       </div>
       <div class="modal-item">
-        <span>Podés comprar directo desde la tienda con <strong>Mercado Pago</strong>. Rápido, seguro y sin intermediarios.</span>
+        <span style="color:#5a7a4a;font-weight:600;margin-right:6px;">✓</span>
+        <span>Pagá con <strong>Mercado Pago</strong> o transferencia bancaria. Rápido y seguro.</span>
       </div>
       <div class="modal-item">
-        <span>El envío se calcula al finalizar la compra. Enviamos a todo el país por <strong>Andreani y Correo Argentino</strong>.</span>
+        <span style="color:#5a7a4a;font-weight:600;margin-right:6px;">✓</span>
+        <span>Enviamos a todo el país — <strong>Andreani y Correo Argentino</strong>.</span>
       </div>
     </div>
-    <button class="modal-btn" onclick="document.getElementById('modalOverlay').classList.add('hidden');document.getElementById('modalShipping').classList.remove('hidden');">Entendido</button>
+    <button class="modal-btn" onclick="document.getElementById('modalOverlay').classList.add('hidden');document.getElementById('modalShipping').classList.remove('hidden');">Ver la colección</button>
   </div>
 </div>
 
 <!-- POPUP ENVÍO GRATIS -->
 <div class="modal-overlay hidden" id="modalShipping">
   <div class="modal-box" style="text-align:center;">
+    <img src="country_horse.png" alt="Country" style="width:64px;height:64px;object-fit:contain;margin:0 auto 10px;display:block;border-radius:12px;">
     <div class="modal-logo">Country</div>
     <div class="modal-divider"></div>
-    <div style="font-size:2em;margin:12px 0 6px;color:#c4a87a;">&#9993;</div>
-    <h2 style="font-size:1.5em;margin-bottom:6px;">Envío Gratis</h2>
-    <div class="modal-sub" style="margin-bottom:16px;">en pedidos desde <strong style="color:#2c1f0e;">$70.000</strong></div>
-    <div style="font-size:0.85em;color:#6a4f30;line-height:1.7;margin-bottom:20px;">
+    <div style="background:#f0e8da;border-radius:10px;padding:20px 18px;margin-bottom:20px;">
+      <div style="font-size:0.68em;letter-spacing:3px;text-transform:uppercase;color:#8a6840;margin-bottom:8px;">Beneficio exclusivo</div>
+      <div style="font-family:'Forum',serif;font-size:1.8em;letter-spacing:2px;color:#2c1f0e;line-height:1.1;margin-bottom:6px;">Envío Gratis</div>
+      <div style="font-size:0.85em;color:#5c3d1e;margin-bottom:14px;">en pedidos desde <strong>$70.000</strong></div>
+      <div style="background:#e8d5b5;border-radius:10px;height:5px;overflow:hidden;">
+        <div style="background:#c4a87a;width:0%;height:100%;border-radius:10px;"></div>
+      </div>
+    </div>
+    <div style="font-size:0.8em;color:#8a6840;letter-spacing:1px;margin-bottom:20px;line-height:1.8;">
       Andreani · Correo Argentino<br>A todo el país
     </div>
-    <button class="modal-btn" onclick="document.getElementById('modalShipping').classList.add('hidden')">Ver catálogo</button>
+    <button class="modal-btn" onclick="document.getElementById('modalShipping').classList.add('hidden');">Explorar la tienda</button>
   </div>
 </div>
 
-<header>
-  <img class="logo" src="country_horse.png" alt="Country Horse">
-  <div class="divider"></div>
-  <h1>Country</h1>
-  <p>Home &amp; Deco</p>
-  <div class="tagline">Piezas con calidez para cada rincón</div>
-  <div class="divider-bottom"></div>
-</header>
+<!-- ===== PORTADA ===== -->
+<div id="section-portada" class="page-section active">
 
-<div style="background:#2c1f0e;color:#f5ead8;text-align:center;padding:12px 20px;font-size:0.82em;letter-spacing:1.5px;text-transform:uppercase;">
-  Precios directos · Consultá por WhatsApp
+  <div class="portada-hero">
+    <img src="hero_trail.jpg" alt="Country — Feel at Home">
+    <div class="portada-hero-overlay"></div>
+    <img src="country_horse.png" alt="" style="position:absolute;top:3%;left:50%;transform:translateX(-50%);width:90px;height:90px;object-fit:contain;opacity:0.82;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.35));z-index:2;pointer-events:none;">
+    <div class="portada-hero-content">
+      <div class="portada-hero-eyebrow">Home &amp; Deco · Argentina</div>
+      <div class="portada-hero-title">Country</div>
+      <div class="portada-hero-sub">Feel at Home</div>
+      <div class="portada-hero-divider"></div>
+      <button class="portada-hero-cta" onclick="goToColeccion('mesa')">
+        Explorar Colección
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="portada-info">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c4a87a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+      <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+    </svg>
+    Envío gratis desde <span>$70.000</span>
+  </div>
+
+  <div class="portada-features">
+    <div class="portada-feat">
+      <div class="portada-feat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c4a87a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <div class="portada-feat-title">Selección curada</div>
+      <div class="portada-feat-desc">Cada pieza elegida a mano. Materiales reales, formas con carácter.</div>
+    </div>
+    <div class="portada-feat">
+      <div class="portada-feat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c4a87a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      </div>
+      <div class="portada-feat-title">Pago seguro</div>
+      <div class="portada-feat-desc">Mercado Pago o transferencia. Sin vueltas, sin riesgos.</div>
+    </div>
+    <div class="portada-feat">
+      <div class="portada-feat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c4a87a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+      <div class="portada-feat-title">Envío nacional</div>
+      <div class="portada-feat-desc">A todo el país. Seguimiento en tiempo real.</div>
+    </div>
+  </div>
+
+  <!-- FOUNDER -->
+  <div class="portada-founder">
+    <div class="portada-founder-photo">
+      <img src="FOTOS/marco-founder.jpg" alt="Marco — Fundador de Country">
+    </div>
+    <div class="portada-founder-text">
+      <div class="portada-founder-eyebrow">Quiénes somos</div>
+      <div class="portada-founder-title">Detrás de Country</div>
+      <div class="portada-founder-body">
+        <p>Soy Marcos, fundador. Country nació de una convicción simple: el hogar es el lugar más importante de tu vida, y cada objeto que lo habita debería estar elegido con intención.</p>
+        <p>Viajamos, buscamos y seleccionamos a mano cada pieza — materiales reales, formas con carácter, piezas que duran. Porque creemos que rodearte de belleza todos los días no es un lujo, es una forma de vivir.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+        <button class="portada-founder-btn" onclick="window.location.href='/historia'">
+          Conocé más
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <a href="https://instagram.com/marcosarancedo" target="_blank" class="portada-founder-ig">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram personal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="portada-cta-bar">
+    <p>Piezas con calidez para cada rincón de tu hogar</p>
+    <button onclick="goToColeccion('mesa')">
+      Ver la colección
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+</div><!-- /section-portada -->
+
+<!-- ===== COLECCIÓN ===== -->
+<div id="section-coleccion" class="page-section">
+
+<div class="coleccion-header">
+  <div class="coleccion-header-eyebrow">Tienda oficial · Argentina</div>
+  <div class="coleccion-header-title">Colección</div>
+  <div class="coleccion-header-sub">Piezas con calidez para cada rincón de tu hogar</div>
 </div>
 
-<!-- Banner envío gratis página principal -->
-<div style="background:linear-gradient(135deg,#2c1f0e 0%,#4a3520 100%);color:#f5ead8;text-align:center;padding:18px 20px;border-bottom:2px solid #c4a87a;">
-  <div>
-    <div style="font-size:1.05em;font-weight:600;letter-spacing:1px;">ENVÍO GRATIS en pedidos desde <span style="color:#c4a87a;">$70.000</span></div>
-    <div style="font-size:0.75em;font-weight:300;letter-spacing:2px;margin-top:3px;color:#c4a87a;text-transform:uppercase;">Andreani · Correo Argentino · Todo el país</div>
-  </div>
+<div class="coleccion-subnav">
+  <button class="csn-btn" data-cat="mesa" onclick="filterCat('mesa')">Mesa y Cocina</button>
+  <button class="csn-btn" data-cat="decoracion" onclick="filterCat('decoracion')">Decoración</button>
+  <button class="csn-btn" data-cat="ambiente" onclick="filterCat('ambiente')">Ambiente</button>
 </div>
 
 <div class="catalog">
+
+  <div class="product">
+    <img class="main-photo" src="elefante_negro_1.jpg" alt="Elefante Decorativo Negro Mate">
+    <div class="thumbnails">
+      <img loading="lazy" src="elefante_negro_1.jpg" class="active" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_2.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_3.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_4.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_5.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_6.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="elefante_negro_7.jpg" onmouseover="changeMain(this)">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Elefante NOIR</div>
+      <div class="product-desc">Figura artesanal en resina · Negro mate · 20×14 cm · Trompa en alto — símbolo de buena suerte y prosperidad. Pieza de autor que transforma cualquier rincón del hogar.</div>
+      <div class="product-price">$35.000</div>
+      <span class="product-tag">Decoración</span>
+    </div>
+  </div>
+
+  <div class="product">
+    <img class="main-photo" src="gato_negro_1.jpg" alt="Gato Decorativo Negro Mate">
+    <div class="thumbnails">
+      <img loading="lazy" src="gato_negro_1.jpg" class="active" onmouseover="changeMain(this)">
+      <img loading="lazy" src="gato_negro_2.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="gato_negro_3.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="gato_negro_4.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="gato_negro_5.jpg" onmouseover="changeMain(this)">
+      <img loading="lazy" src="gato_negro_6.jpg" onmouseover="changeMain(this)">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Gato NOIR</div>
+      <div class="product-desc">Figura escultórica en resina · Negro mate · 22×10 cm · Silueta minimalista con cola en alto — diseño de línea continua que funciona como objeto de arte en repisas, estantes y escritorios.</div>
+      <div class="product-price">$30.000</div>
+      <span class="product-tag">Decoración</span>
+    </div>
+  </div>
 
   <div class="product">
     <img class="main-photo" src="FOTOS/Hojas/ML BLANCA/1-copy-1.jpg" alt="Bandeja Hoja Decorativa Blanca">
@@ -924,7 +2009,7 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
   </div>
 
   <div class="product">
-    <img loading="lazy" class="main-photo" src="FOTOS/LIBROS/ML/1-copy-3.jpg" alt="Set x3 Libros Decorativos">
+    <img loading="lazy" class="main-photo" src="FOTOS/LIBROS/ML/1-copy-3.jpg" alt="Set x4 Libros Decorativos">
     <div class="thumbnails">
       <img loading="lazy" src="FOTOS/LIBROS/ML/1-copy-3.jpg" class="active" onmouseover="changeMain(this)">
       <img loading="lazy" src="FOTOS/LIBROS/ML/2.jpeg" onmouseover="changeMain(this)">
@@ -935,7 +2020,7 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
     </div>
     <div class="product-info">
       <div class="product-name">Libros DUNE</div>
-      <div class="product-desc">Set de 3 libros decorativos para repisa y coffee table · 16×14×4 cm (set) · El accesorio favorito del home deco — aportan altura, textura y carácter a cualquier rincón del hogar</div>
+      <div class="product-desc">Set de 4 libros decorativos para repisa y coffee table · 16×14×4 cm (set) · El accesorio favorito del home deco — aportan altura, textura y carácter a cualquier rincón del hogar</div>
       <div class="product-price">$29.900</div>
       <span class="product-tag">Decoración</span>
     </div>
@@ -1092,83 +2177,168 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
   </div>
 
   <!-- ===== MESA & COCINA — MISHKA ===== -->
+  <div class="product" id="plato-playo-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-cartago/1.jpg" alt="Plato Playo Cartago 27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Platos Playos Cartago 27 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 27 cm · Set de 6 unidades</div><div class="product-price">$119.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-playo-cartago-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-cartago-x4/1.jpg" alt="Set x4 Platos Playos Cartago 27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago-x4/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Platos Playos Cartago 27 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 27 cm · Set de 4 unidades</div><div class="product-price">$79.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-postre-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-cartago/1.jpg" alt="Plato Postre Cartago 21cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Platos Postre Cartago 21 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 21 cm · Set de 6 unidades</div><div class="product-price">$92.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  
+  <div class="product" id="plato-postre-cartago-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-cartago-x4/1.jpg" alt="Set x4 Platos Postre Cartago 21cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago-x4/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Platos Postre Cartago 21 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 21 cm · Set de 4 unidades</div><div class="product-price">$61.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-cartago/1.jpg" alt="Bowl Cartago 15cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-cartago/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago/4.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Bowls Cartago 15 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Ideal para cereales, sopas y postres · 15 cm · Set de 6 unidades</div><div class="product-price">$80.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-cartago-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-cartago-x4/1.jpg" alt="Set x4 Bowls Cartago 15cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-cartago-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-cartago-x4/4.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Bowls Cartago 15 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Ideal para cereales, sopas y postres · 15 cm · Set de 4 unidades</div><div class="product-price">$54.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-cartago/1.jpg" alt="Mug Cartago 450ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-cartago/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Mugs Cartago 450 ml</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Para café o té · 450 ml · Set de 6 unidades</div><div class="product-price">$65.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-cartago-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-cartago-x4/1.jpg" alt="Set x4 Mugs Cartago 450ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-cartago-x4/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Mugs Cartago 450 ml</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Para café o té · 450 ml · Set de 4 unidades</div><div class="product-price">$43.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-playo-portofino-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-portofino-x4/1.jpg" alt="Set x4 Plato Playo Portofino 26 cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino-x4/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Plato Playo Portofino 26 cm</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Diseño elegante con acabado artesanal · Set de 4 · 26 cm</div><div class="product-price">$87.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="plato-playo-portofino"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-portofino/1.jpg" alt="Plato Playo Portofino 26cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Plato Playo Portofino 26 cm</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Diseño elegante con acabado artesanal · Set de 6 · 26 cm</div><div class="product-price">$129.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-postre-portofino-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-portofino-x4/1.jpg" alt="Set x4 Plato Postre Portofino 22 cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino-x4/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Plato Postre Portofino 22 cm</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Complemento perfecto para una mesa bien puesta · Set de 4 · 22 cm</div><div class="product-price">$65.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="plato-postre-portofino"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-portofino/1.jpg" alt="Plato Postre Portofino 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Plato Postre Portofino 22 cm</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Complemento perfecto para una mesa bien puesta · Set de 6 · 22 cm</div><div class="product-price">$97.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-portofino-400-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-400-x4/1.jpg" alt="Set x4 Mug Portofino 400 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400-x4/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Mug Portofino 400 ml</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Incluye 1 mini dip por cada mug · Diseño cálido y minimalista · 400 ml · Set de 4</div><div class="product-price">$65.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="mug-portofino-400"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-400/1.jpg" alt="Mug Portofino 400ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Mug Portofino 400 ml</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Incluye 1 mini dip por cada mug · Diseño cálido y minimalista · 400 ml · Set de 6</div><div class="product-price">$97.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-portofino-410-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-410-x4/1.jpg" alt="Set x4 Mug Portofino 410 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/8.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410-x4/9.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Mug Portofino 410 ml</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Capacidad generosa para café o infusiones · 410 ml · Set de 4</div><div class="product-price">$43.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="mug-portofino-410"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-410/1.jpg" alt="Mug Portofino 410ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/8.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/9.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/10.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/11.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Mug Portofino 410 ml</div><div class="product-desc">Cerámica · Color verde agua castaño · Línea Portofino · Capacidad generosa para café o infusiones · 410 ml · Set de 6</div><div class="product-price">$65.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-playo-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-sorrento/3.jpg" alt="Set x6 Plato Playo Sorrento 27.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/3.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Plato Playo Sorrento 27,5 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Diseño artesanal con textura y carácter · 27,5 cm · Set de 6</div><div class="product-price">$152.500</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-playo-sorrento-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-sorrento/2.jpg" alt="Set x4 Plato Playo Sorrento 27.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/2.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Plato Playo Sorrento 27,5 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Diseño artesanal con textura y carácter · 27,5 cm · Set de 4</div><div class="product-price">$101.700</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-postre-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-sorrento/6.jpg" alt="Set x6 Plato Postre Sorrento 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/6.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Plato Postre Sorrento 22 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Elegancia artesanal en cada detalle · 22 cm · Set de 6</div><div class="product-price">$108.900</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="plato-postre-sorrento-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-sorrento/4.jpg" alt="Set x4 Plato Postre Sorrento 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/4.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Plato Postre Sorrento 22 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Elegancia artesanal en cada detalle · 22 cm · Set de 4</div><div class="product-price">$72.600</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sorrento/5.jpg" alt="Set x6 Bowl Sorrento 680ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/5.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Bowl Sorrento 680 ml</div><div class="product-desc">Porcelana · Línea Sorrento · Amplio y elegante para pastas, ensaladas o sopas · 680 ml · Set de 6</div><div class="product-price">$108.900</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-sorrento-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sorrento/3.jpg" alt="Set x4 Bowl Sorrento 680ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/3.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/1.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Bowl Sorrento 680 ml</div><div class="product-desc">Porcelana · Línea Sorrento · Amplio y elegante para pastas, ensaladas o sopas · 680 ml · Set de 4</div><div class="product-price">$72.600</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="azucarera-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/azucarera-sorrento/1.jpg" alt="Azucarera Sorrento"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Azucarera Sorrento 10,5×11 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Detalle que completa cualquier mesa · 10,5×11 cm</div><div class="product-price">$17.000</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="lechera-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/lechera-sorrento/1.jpg" alt="Lechera Sorrento 280ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Lechera Sorrento 280 ml</div><div class="product-desc">Porcelana · Línea Sorrento · Pequeño detalle de gran impacto en la mesa · 280 ml</div><div class="product-price">$16.500</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bandeja-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandeja-sorrento/1.jpg" alt="Bandeja Ovalada Sorrento"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandeja-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-sorrento/3.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bandeja Ovalada Sorrento 30×14,5 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Para servir con estilo · 30×14,5 cm</div><div class="product-price">$35.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="set-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/set-sorrento/1.jpg" alt="Set Completo Sorrento"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/set-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/set-sorrento/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set Completo Sorrento</div><div class="product-desc">Porcelana · Línea Sorrento · Azucarera + Lechera + Bandeja Ovalada · El set completo para una mesa perfecta</div><div class="product-price">$60.000</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-sundara-rectangular"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sundara-rectangular/1.jpg" alt="Bowl Rectangular Sundara 700ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Rectangular Sundara 700 ml</div><div class="product-desc">Madera de mango sostenible · Veta densa con tonos cálidos únicos que van del claro al oscuro · Dura y resistente a golpes · Ideal para servir ensaladas, pastas, picadas y snacks con estilo bohemio o natural · 700 ml</div><div class="product-price">$45.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bowl-sundara-redondo"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sundara-redondo/1.jpg" alt="Bowl Redondo Sundara 1000ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Redondo Sundara 1000 ml</div><div class="product-desc">Madera de mango sostenible · Veta densa con tonos cálidos únicos que van del claro al oscuro · Dura y resistente a golpes · Ideal para servir ensaladas, pastas, picadas y snacks con estilo bohemio o natural · 1000 ml</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="vasos-maja-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja-x4/1.jpg" alt="Set x4 Vasos Maja 420 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-x4/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Vasos Maja 420 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Resistente y liviano · Resiste cambios bruscos de temperatura · Para agua, jugos o cócteles · Set de 4 · 420 ml c/u</div><div class="product-price">$61.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="vasos-maja"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja/1.jpg" alt="Set x6 Vasos Maja 420ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Vasos Maja 420 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Resistente y liviano · Resiste cambios bruscos de temperatura · Para agua, jugos o cócteles · Set de 6 · 420 ml c/u</div><div class="product-price">$89.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="vasos-maja-black-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja-black-x4/1.jpg" alt="Set x4 Vasos Maja Black 420 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black-x4/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Vasos Maja Black 420 ml</div><div class="product-desc">Fabricado con vidrio borosilicato ahumado negro · Diseño sofisticado que eleva cualquier mesa · Resiste cambios bruscos de temperatura · Set de 4 · 420 ml c/u</div><div class="product-price">$52.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="vasos-maja-black"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja-black/1.jpg" alt="Set x6 Vasos Maja Black 420ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Vasos Maja Black 420 ml</div><div class="product-desc">Fabricado con vidrio borosilicato ahumado negro · Diseño sofisticado que eleva cualquier mesa · Resiste cambios bruscos de temperatura · Set de 6 · 420 ml c/u</div><div class="product-price">$75.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="copas-fedra-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra-x4/1.jpg" alt="Set x4 Copas Fedra 330 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-x4/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Copas Fedra 330 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Resistente y liviano · Resiste cambios bruscos de temperatura · Para vinos blancos, rosados y espumantes · Set de 4 · 330 ml c/u</div><div class="product-price">$98.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="copas-fedra"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra/1.jpg" alt="Set x6 Copas Fedra 330ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Copas Fedra 330 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Resistente y liviano · Resiste cambios bruscos de temperatura · Para vinos blancos, rosados y espumantes · Set de 6 · 330 ml c/u</div><div class="product-price">$143.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="copas-fedra-brown-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra-brown-x4/1.jpg" alt="Set x4 Copas Fedra Brown 320 ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown-x4/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Copas Fedra Brown 320 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Tono ahumado marrón cálido y sofisticado · Resiste cambios bruscos de temperatura · Set de 4 · 320 ml c/u</div><div class="product-price">$114.999</div><span class="product-tag">Mesa &amp; Cocina</span></div></div>
+  <div class="product" id="copas-fedra-brown"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra-brown/1.jpg" alt="Set x6 Copas Fedra Brown 320ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Copas Fedra Brown 320 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Tono ahumado marrón cálido y sofisticado · Resiste cambios bruscos de temperatura · Set de 6 · 320 ml c/u</div><div class="product-price">$169.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="jarra-maja-black"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-maja-black/1.jpg" alt="Jarra Maja Black 1600ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Maja Black 1600 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Funda tejida de rattan negro · Diseño artesanal · Resiste cambios bruscos de temperatura · 1600 ml</div><div class="product-price">$66.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+    <div class="product" id="mug-irish"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-icon/1.jpg" alt="Set x6 Mug Irish Borosilicato 190ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-icon/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/8.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/9.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-icon/10.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Mug Irish Borosilicato 190 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · El mismo que se usa en medicina e industria · Resiste cambios bruscos de temperatura · No retiene olores ni sabores · Ultra resistente y duradero · 190 ml · Set de 6 unidades</div><div class="product-price">$43.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-irish-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-irish-x4/1.jpg" alt="Set x4 Mug Irish Borosilicato 190ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/8.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-irish-x4/9.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Mug Irish Borosilicato 190 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · El mismo que se usa en medicina e industria · Resiste cambios bruscos de temperatura · No retiene olores ni sabores · Ultra resistente y duradero · 190 ml · Set de 4 unidades</div><div class="product-price">$28.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="mug-vienna-x6"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-vienna-x6/1.jpg" alt="Set x6 Mug Vienna Borosilicato 200ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x6/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Mug Vienna Borosilicato 200 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · El mismo que se usa en medicina e industria · Resiste cambios bruscos de temperatura · No retiene olores ni sabores · Ultra resistente y duradero · 200 ml · Set de 6 unidades</div><div class="product-price">$59.999</div><span class="product-tag">Mesa & Cocina</span></div></div><div class="product" id="mug-vienna-x4"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-vienna-x4/1.jpg" alt="Set x4 Mug Vienna Borosilicato 200ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/mug-vienna-x4/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Mug Vienna Borosilicato 200 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · El mismo que se usa en medicina e industria · Resiste cambios bruscos de temperatura · No retiene olores ni sabores · Ultra resistente y duradero · 200 ml · Set de 4 unidades</div><div class="product-price">$39.999</div><span class="product-tag">Mesa & Cocina</span></div></div><div class="product" id="copetinero-redondo"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetinero-redondo/1.jpg" alt="Copetinero Redondo Acacia"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-redondo/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Copetinero Redondo Acacia</div><div class="product-desc">Hecho a mano · Madera de acacia · Una de las maderas más duras y resistentes del mundo · Propiedades antimicrobianas naturales · Veta y color únicos en cada pieza · 10 cm · Diseño redondo</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div><div class="product" id="copetinero-conico"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetinero-conico/1.jpg" alt="Copetinero Cónico Acacia"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-conico/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Copetinero Cónico Acacia</div><div class="product-desc">Hecho a mano · Madera de acacia · Una de las maderas más duras y resistentes del mundo · Propiedades antimicrobianas naturales · Veta y color únicos en cada pieza · 10 cm · Diseño cónico</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div><div class="product" id="copetinero-cuadrado"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetinero-cuadrado/1.jpg" alt="Copetinero Cuadrado Acacia"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetinero-cuadrado/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-cuadrado/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-cuadrado/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-cuadrado/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetinero-cuadrado/5.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Copetinero Cuadrado Acacia</div><div class="product-desc">Hecho a mano · Madera de acacia · Una de las maderas más duras y resistentes del mundo · Propiedades antimicrobianas naturales · Veta y color únicos en cada pieza · 10 cm · Diseño cuadrado</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div><div class="product" id="copetineros-porcelana"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetineros-porcelana/1.jpg" alt="Set x4 Copetineros Porcelana Base Bamboo"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Copetineros Porcelana + Base Bamboo</div><div class="product-desc">Porcelana cuadrada con base de bamboo negro · 20×20 cm · Diseño premium</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="cuenco-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cuenco-acacia/1.jpg" alt="Cuenco Ovalado Acacia 26cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Cuenco Ovalado Manila 26 cm</div><div class="product-desc">Hecho a mano · Madera de acacia · Una de las maderas más duras y resistentes del mundo · Propiedades antimicrobianas naturales · Veta y color únicos en cada pieza · Ideal para ensaladas, panera y frutero · 26×20×6,5 cm</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bifera"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bifera/1.jpg" alt="Bifera Cuadrada Acacia 4x27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bifera/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bifera/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bifera/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bifera/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bifera/5.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bifera Cuadrada 4×27 cm</div><div class="product-desc">Aluminio fundido · Paredes gruesas y resistentes que evitan deformaciones con el calor intenso · Cocción pareja y uniforme · Mango de madera de bambú para un agarre firme y seguro · Durabilidad superior</div><div class="product-price">$85.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bandejas-hanoi"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandejas-hanoi/1.jpg" alt="Set x2 Bandejas Redondas Hanoi"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x2 Bandejas Redondas Hanoi</div><div class="product-desc">Acacia · 31 y 25 cm · Diseño natural y versátil para mesa y cocina</div><div class="product-price">$50.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="bandeja-family-farm"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandeja-family-farm/1.jpg" alt="Bandeja Rectangular Family Farm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bandeja Rectangular Family Farm 33,5 cm</div><div class="product-desc">Porcelana resistente · Apto para horno y lavavajillas · Del horno directo a la mesa · Estilo farmhouse americano · Borde grafito · 33,5x21 cm</div><div class="product-price">$22.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="fuente-family-farm"><img loading="lazy" class="main-photo" src="FOTOS/mishka/fuente-family-farm/1.jpg" alt="Fuente Family Farm 24x16.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Fuente Family Farm 24×16,5 cm</div><div class="product-desc">Porcelana resistente · Apto para horno y lavavajillas · Del horno directo a la mesa · Estilo farmhouse americano · Borde grafito · 24x16,5x5 cm</div><div class="product-price">$19.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="fuente-horno-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/fuente-horno-acacia/1.jpg" alt="Fuente para Horno con Base Acacia 23cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Fuente p/Horno con Base Acacia 23 cm</div><div class="product-desc">Del horno directo a la mesa · Base de madera de acacia · 23 cm</div><div class="product-price">$54.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="cubiertos-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cubiertos-acacia/1.jpg" alt="Set Cuchara y Tenedor Acacia Black"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set Cuchara y Tenedor Acacia Black</div><div class="product-desc">Acacia negra · Para servir ensaladas y fuentes · 25,4 cm</div><div class="product-price">$15.500</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="cesto-kendari"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cesto-kendari/1.jpg" alt="Cesto con Manijas Kendari"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/7.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Cesto con Manijas Kendari</div><div class="product-desc">Tejido artesanal · Para organizar y decorar · 13×27 cm</div><div class="product-price">$61.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="jarra-bali"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-bali/1.jpg" alt="Jarra Bali 1350ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-bali/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-bali/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-bali/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-bali/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-bali/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-bali/6.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Bali 1350 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Resistente y liviano · Resiste cambios bruscos de temperatura · Para agua, jugos y limonadas · 1350 ml</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="jarra-menak"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-menak/1.jpg" alt="Jarra Cónica Menak 1300ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-menak/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/jarra-menak/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Cónica Menak 1300 ml</div><div class="product-desc">Fabricado con vidrio borosilicato · Forma elegante con amplia capacidad · Resiste cambios bruscos de temperatura · Perfecta para cualquier mesa · 1300 ml</div><div class="product-price">$52.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="ensaladera-general-18"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-general-18/1.jpg" alt="Ensaladera Enlozada General Store 18cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Enlozada General Store 18 cm</div><div class="product-desc">Enlozado · Diseño vintage rústico · Para guarniciones y ensaladas · 18×7 cm</div><div class="product-price">$15.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="ensaladera-general-22"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-general-22/1.jpg" alt="Ensaladera Enlozada General Store 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/5.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/6.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/7.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/8.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Enlozada General Store 22 cm</div><div class="product-desc">Enlozado · Diseño vintage rústico · Para ensaladas y guarniciones · 22×9 cm</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+  <div class="product" id="ensaladera-omari"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-omari/1.jpg" alt="Ensaladera Omari 3500ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/1.jpg" class="active" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/2.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/3.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/4.jpg" onmouseover="changeMain(this)"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/5.jpg" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Omari 3500 ml</div><div class="product-desc">Gran capacidad para ensaladas familiares · Diseño limpio y atemporal · 3500 ml</div><div class="product-price">$57.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
 
-  <div class="product" id="plato-playo-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-cartago/1.jpg" alt="Plato Playo Cartago 27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-cartago/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Playo Cartago 27 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 27 cm</div><div class="product-price">$19.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+</div>
 
-  <div class="product" id="plato-postre-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-cartago/1.jpg" alt="Plato Postre Cartago 21cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-cartago/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Postre Cartago 21 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Textura artesanal natural · 21 cm</div><div class="product-price">$15.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
+</div><!-- /section-coleccion -->
 
-  <div class="product" id="bowl-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-cartago/1.jpg" alt="Bowl Cartago 15cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-cartago/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Cartago 15 cm</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Ideal para cereales, sopas y postres · 15 cm</div><div class="product-price">$13.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
+<!-- SECCIÓN NOSOTROS -->
+<div id="section-nosotros" class="page-section" style="background:#f5f0eb;min-height:60vh;">
+  <div class="nosotros-section">
+    <div class="nos-eyebrow">Nuestra historia</div>
+    <h2 class="nos-title">Country<br>Home &amp; Deco</h2>
+    <img src="country_horse.png" alt="Country" class="nos-hero-img">
+    <div class="nos-divider"></div>
+    <div class="nos-body">
+      <p>Country nació de nueve años viviendo en Estados Unidos.</p>
+      <p>Durante ese tiempo aprendimos a ver el hogar de otra manera: como un espacio que habla, que genera calma, que refleja quiénes somos. El estilo que encontramos allá — madera con historia, cerámica artesanal, texturas naturales, objetos que duran décadas — era difícil de conseguir acá.</p>
+      <p>Country Home &amp; Deco es nuestra forma de cambiar eso. Seleccionamos cada pieza con criterio: materiales reales, formas con carácter y una estética que no grita, sino que invita. Nada pensado para durar una temporada.</p>
+      <p>El objetivo siempre fue el mismo: que cuando entres a tu casa, la sientas tuya.</p>
+    </div>
+  </div>
+</div>
 
-  <div class="product" id="mug-cartago"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-cartago/1.jpg" alt="Mug Cartago 450ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-cartago/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Mug Cartago 450 ml</div><div class="product-desc">Porcelana · Línea Cartago Blanco Granite · Para café o té · 450 ml</div><div class="product-price">$10.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
+<!-- SECCIÓN CONTACTO -->
+<div id="section-contacto" class="page-section" style="background:#f5f0eb;min-height:60vh;">
+  <div class="contacto-section">
+    <div class="con-eyebrow">Estamos para ayudarte</div>
+    <h2 class="con-title">Contacto</h2>
+    <div class="con-sub">Respondemos rápido — generalmente en menos de una hora.</div>
+    <div class="con-divider"></div>
+    <div class="con-cards">
+      <a class="con-card" href="https://wa.me/541131655653?text=Hola!%20Vi%20el%20cat%C3%A1logo%20y%20quiero%20consultar" target="_blank">
+        <div class="con-card-icon" style="background:rgba(37,211,102,0.12);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#25d366">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.41A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="con-card-label">WhatsApp</div>
+          <div class="con-card-value">+54 9 11 3165-5653</div>
+        </div>
+      </a>
+      <a class="con-card" href="mailto:country.homedeco.ar@gmail.com">
+        <div class="con-card-icon" style="background:rgba(196,168,122,0.12);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c4a87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="con-card-label">Email</div>
+          <div class="con-card-value">country.homedeco.ar@gmail.com</div>
+        </div>
+      </a>
+      <a class="con-card" href="https://instagram.com/country.homedeco" target="_blank">
+        <div class="con-card-icon" style="background:rgba(193,53,132,0.10);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.8" fill="#e1306c" stroke="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="con-card-label">Instagram</div>
+          <div class="con-card-value">@country.homedeco</div>
+        </div>
+      </a>
+      <a class="con-card" href="https://www.facebook.com/profile.php?id=61572010690477" target="_blank">
+        <div class="con-card-icon" style="background:rgba(24,119,242,0.10);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="con-card-label">Facebook</div>
+          <div class="con-card-value">Country Home Deco</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
 
-  <div class="product" id="plato-playo-portofino"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-portofino/1.jpg" alt="Plato Playo Portofino 26cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-portofino/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Playo Portofino 26 cm</div><div class="product-desc">Porcelana · Línea Portofino · Diseño elegante con acabado artesanal · 26 cm</div><div class="product-price">$21.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="plato-postre-portofino"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-portofino/1.jpg" alt="Plato Postre Portofino 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-portofino/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Postre Portofino 22 cm</div><div class="product-desc">Porcelana · Línea Portofino · Complemento perfecto para una mesa bien puesta · 22 cm</div><div class="product-price">$16.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="mug-portofino-400"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-400/1.jpg" alt="Mug Portofino 400ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-400/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Mug Portofino 400 ml</div><div class="product-desc">Porcelana · Línea Portofino · Diseño cálido y minimalista · 400 ml</div><div class="product-price">$8.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="mug-portofino-410"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-portofino-410/1.jpg" alt="Mug Portofino 410ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-portofino-410/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Mug Portofino 410 ml</div><div class="product-desc">Porcelana · Línea Portofino · Capacidad generosa para café o infusiones · 410 ml</div><div class="product-price">$10.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="plato-playo-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-playo-sorrento/1.jpg" alt="Plato Playo Sorrento 27.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-playo-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Playo Sorrento 27,5 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Diseño artesanal con textura y carácter · 27,5 cm</div><div class="product-price">$25.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="plato-postre-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/plato-postre-sorrento/1.jpg" alt="Plato Postre Sorrento 22cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/plato-postre-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Plato Postre Sorrento 22 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Elegancia artesanal en cada detalle · 22 cm</div><div class="product-price">$17.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bowl-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sorrento/1.jpg" alt="Bowl Sorrento 680ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Sorrento 680 ml</div><div class="product-desc">Porcelana · Línea Sorrento · Amplio y elegante para pastas, ensaladas o sopas · 680 ml</div><div class="product-price">$17.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="azucarera-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/azucarera-sorrento/1.jpg" alt="Azucarera Sorrento"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/azucarera-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Azucarera Sorrento</div><div class="product-desc">Porcelana · Línea Sorrento · Detalle que completa cualquier mesa · 10,5×11 cm</div><div class="product-price">$16.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="lechera-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/lechera-sorrento/1.jpg" alt="Lechera Sorrento 280ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/lechera-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Lechera Sorrento 280 ml</div><div class="product-desc">Porcelana · Línea Sorrento · Pequeño detalle de gran impacto en la mesa · 280 ml</div><div class="product-price">$15.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bandeja-sorrento"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandeja-sorrento/1.jpg" alt="Bandeja Ovalada Sorrento 30x14.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandeja-sorrento/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bandeja Ovalada Sorrento 30×14,5 cm</div><div class="product-desc">Porcelana · Línea Sorrento · Para servir con estilo · 30×14,5 cm</div><div class="product-price">$35.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bowl-sundara-rectangular"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sundara-rectangular/1.jpg" alt="Bowl Rectangular Sundara 700ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-rectangular/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Rectangular Sundara 700 ml</div><div class="product-desc">Diseño orgánico y artesanal · Ideal para presentaciones en la mesa · 700 ml</div><div class="product-price">$45.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bowl-sundara-redondo"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bowl-sundara-redondo/1.jpg" alt="Bowl Redondo Sundara 1000ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bowl-sundara-redondo/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bowl Redondo Sundara 1000 ml</div><div class="product-desc">Forma orgánica generosa · Para pastas, ensaladas y servicio en mesa · 1000 ml</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="vasos-maja"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja/1.jpg" alt="Set x6 Vasos Maja 420ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Vasos Maja 420 ml</div><div class="product-desc">Vidrio · Diseño clásico y versátil · Para agua, jugos o cócteles · Set de 6 · 420 ml c/u</div><div class="product-price">$89.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="vasos-maja-black"><img loading="lazy" class="main-photo" src="FOTOS/mishka/vasos-maja-black/1.jpg" alt="Set x6 Vasos Maja Black 420ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/vasos-maja-black/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Vasos Maja Black 420 ml</div><div class="product-desc">Vidrio ahumado negro · Diseño sofisticado que eleva cualquier mesa · Set de 6 · 420 ml c/u</div><div class="product-price">$75.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="copas-fedra"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra/1.jpg" alt="Set x6 Copas Fedra 330ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Copas Fedra 330 ml</div><div class="product-desc">Vidrio · Diseño elegante y fino · Para vinos blancos, rosados y espumantes · Set de 6 · 330 ml c/u</div><div class="product-price">$143.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="copas-fedra-brown"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copas-fedra-brown/1.jpg" alt="Set x6 Copas Fedra Brown 320ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copas-fedra-brown/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x6 Copas Fedra Brown 320 ml</div><div class="product-desc">Vidrio ahumado marrón · Tono cálido y sofisticado · Set de 6 · 320 ml c/u</div><div class="product-price">$169.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="jarra-maja-black"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-maja-black/1.jpg" alt="Jarra Maja Black 1600ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-maja-black/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Maja Black 1600 ml</div><div class="product-desc">Vidrio con funda tejida de rattan negro · Diseño artesanal único · 1600 ml</div><div class="product-price">$66.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="mug-icon"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-icon/1.jpg" alt="Mug Borosilicato Cuadrado Icon 190ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-icon/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Mug Borosilicato Icon 190 ml</div><div class="product-desc">Borosilicato cuadrado · Vidrio resistente al calor · Para café, té y mate cocido · 190 ml</div><div class="product-price">$6.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="mug-net"><img loading="lazy" class="main-photo" src="FOTOS/mishka/mug-net/1.jpg" alt="Mug Borosilicato Net 200ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/mug-net/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Mug Borosilicato Net 200 ml</div><div class="product-desc">Borosilicato doble pared · Vidrio resistente al calor · Diseño net · 200 ml</div><div class="product-price">$10.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="copetineros-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetineros-acacia/1.jpg" alt="Set Copetineros Acacia Manila"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetineros-acacia/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set Copetineros Acacia Manila</div><div class="product-desc">Madera de acacia natural · Ideales para aperitivos, picadas y presentaciones</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="copetineros-porcelana"><img loading="lazy" class="main-photo" src="FOTOS/mishka/copetineros-porcelana/1.jpg" alt="Set x4 Copetineros Porcelana Base Bamboo"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/copetineros-porcelana/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x4 Copetineros Porcelana + Base Bamboo</div><div class="product-desc">Porcelana cuadrada con base de bamboo negro · 20×20 cm · Diseño premium</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="cuenco-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cuenco-acacia/1.jpg" alt="Cuenco Ovalado Acacia 26cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cuenco-acacia/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Cuenco Ovalado Acacia Manila 26 cm</div><div class="product-desc">Madera de acacia natural · Para servir y decorar · 26×20×6,5 cm</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bifera"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bifera/1.jpg" alt="Bifera Cuadrada Acacia 4x27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bifera/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bifera Cuadrada Acacia 4×27 cm</div><div class="product-desc">Madera de acacia · Para servir dips, salsas y aperitivos con estilo · 4×27 cm</div><div class="product-price">$94.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bandejas-hanoi"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandejas-hanoi/1.jpg" alt="Set x2 Bandejas Redondas Hanoi"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandejas-hanoi/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set x2 Bandejas Redondas Hanoi</div><div class="product-desc">Acacia · 31 y 25 cm · Diseño natural y versátil para mesa y cocina</div><div class="product-price">$50.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="bandeja-family-farm"><img loading="lazy" class="main-photo" src="FOTOS/mishka/bandeja-family-farm/1.jpg" alt="Bandeja Rectangular Family Farm 33.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/bandeja-family-farm/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Bandeja Rectangular Family Farm 33,5 cm</div><div class="product-desc">Madera · Estilo rústico americano para servir y presentar · 33,5×21 cm</div><div class="product-price">$22.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="fuente-family-farm"><img loading="lazy" class="main-photo" src="FOTOS/mishka/fuente-family-farm/1.jpg" alt="Fuente Family Farm 24x16.5cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/fuente-family-farm/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Fuente Family Farm 24×16,5 cm</div><div class="product-desc">Madera · Diseño rústico y práctico para servir en cualquier ocasión · 24×16,5×5 cm</div><div class="product-price">$19.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="fuente-horno-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/fuente-horno-acacia/1.jpg" alt="Fuente para Horno con Base Acacia 23cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/fuente-horno-acacia/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Fuente p/Horno con Base Acacia 23 cm</div><div class="product-desc">Del horno directo a la mesa · Base de madera de acacia · 23 cm</div><div class="product-price">$54.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="cubiertos-acacia"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cubiertos-acacia/1.jpg" alt="Set Cuchara y Tenedor Acacia Black"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cubiertos-acacia/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Set Cuchara y Tenedor Acacia Black</div><div class="product-desc">Acacia negra · Para servir ensaladas y fuentes · 25,4 cm</div><div class="product-price">$15.499</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="cesto-kendari"><img loading="lazy" class="main-photo" src="FOTOS/mishka/cesto-kendari/1.jpg" alt="Cesto con Manijas Kendari 13x27cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/cesto-kendari/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Cesto con Manijas Kendari</div><div class="product-desc">Tejido artesanal · Para organizar y decorar · 13×27 cm</div><div class="product-price">$61.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="jarra-bali"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-bali/1.jpg" alt="Jarra Recta Bali 1350ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-bali/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Recta Bali 1350 ml</div><div class="product-desc">Diseño limpio y versátil · Para agua, jugos y limonadas · 1350 ml</div><div class="product-price">$47.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="jarra-menak"><img loading="lazy" class="main-photo" src="FOTOS/mishka/jarra-menak/1.jpg" alt="Jarra Cónica Menak 1300ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/jarra-menak/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Jarra Cónica Menak 1300 ml</div><div class="product-desc">Forma elegante con amplia capacidad · Perfecta para cualquier mesa · 1300 ml</div><div class="product-price">$52.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="ensaladera-general-18"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-general-18/1.jpg" alt="Ensaladera Enlozada General Store 18x7cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-18/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Enlozada General Store 18 cm</div><div class="product-desc">Enlozado · Diseño vintage rústico · Para guarniciones y ensaladas · 18×7 cm</div><div class="product-price">$15.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="ensaladera-general-22"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-general-22/1.jpg" alt="Ensaladera Enlozada General Store 22x9cm"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-general-22/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Enlozada General Store 22 cm</div><div class="product-desc">Enlozado · Diseño vintage rústico · Para ensaladas y guarniciones · 22×9 cm</div><div class="product-price">$23.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
-  <div class="product" id="ensaladera-omari"><img loading="lazy" class="main-photo" src="FOTOS/mishka/ensaladera-omari/1.jpg" alt="Ensaladera Omari 3500ml"><div class="thumbnails"><img loading="lazy" src="FOTOS/mishka/ensaladera-omari/1.jpg" class="active" onmouseover="changeMain(this)"></div><div class="product-info"><div class="product-name">Ensaladera Omari 3500 ml</div><div class="product-desc">Gran capacidad para ensaladas familiares · Diseño limpio y atemporal · 3500 ml</div><div class="product-price">$57.999</div><span class="product-tag">Mesa & Cocina</span></div></div>
-
+<!-- PRODUCT DETAIL PAGE -->
+<div class="product-modal-overlay" id="product-modal">
+  <div class="product-modal" id="product-modal-inner">
+    <div class="pm-topbar">
+      <button class="pm-back" onclick="closeProductModal()">&#8592;</button>
+      <div class="pm-topbar-brand">Country</div>
+    </div>
+    <div class="pm-photo-wrap" id="pm-photo-wrap">
+      <img class="pm-photo" id="pm-photo" src="" alt="">
+      <button class="pm-arrow pm-prev" id="pm-prev" onclick="pmNav(-1)">&#8249;</button>
+      <button class="pm-arrow pm-next" id="pm-next" onclick="pmNav(1)">&#8250;</button>
+      <div class="pm-counter" id="pm-counter">1 / 1</div>
+    </div>
+    <div class="pm-thumbs" id="pm-thumbs"></div>
+    <div class="pm-info">
+      <div class="pm-tag" id="pm-tag"></div>
+      <div class="pm-name" id="pm-name"></div>
+      <div class="pm-price" id="pm-price"></div>
+    </div>
+    <div class="pm-section">
+      <div class="pm-section-header" onclick="pmToggleDesc()">
+        <span class="pm-section-title">Descripción</span>
+        <span class="pm-section-icon" id="pm-section-icon">−</span>
+      </div>
+      <div class="pm-desc" id="pm-desc"></div>
+    </div>
+    <button class="pm-add-btn" id="pm-add-btn">+ Agregar al carrito</button>
+  </div>
 </div>
 
 <footer>
@@ -1181,7 +2351,7 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
     <p style="font-family:'Work Sans',sans-serif; font-size:0.7em; font-weight:300; letter-spacing:5px; color:#c4a87a; text-transform:uppercase; margin-top:6px;">Feel at Home</p>
 
     <!-- Links en grilla 2x2 -->
-    <div style="display:grid; grid-template-columns: repeat(2, auto); justify-content:center; gap:16px 48px; margin-top:24px; margin-bottom:140px;">
+    <div style="display:grid; grid-template-columns: repeat(2, auto); justify-content:center; gap:16px 48px; margin-top:24px; margin-bottom:32px;">
 
       <!-- Instagram -->
       <a href="https://instagram.com/country.homedeco" target="_blank" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:#e8d5b5;">
@@ -1219,6 +2389,68 @@ src="https://www.facebook.com/tr?id=1479825037203290&ev=PageView&noscript=1"/></
       </a>
 
     </div>
+
+    <!-- Medios de pago -->
+    <div style="padding-top: 28px; border-top: 1px solid rgba(196,168,122,0.2);">
+      <div style="font-size:0.62em; letter-spacing:3px; text-transform:uppercase; color:#8a6840; margin-bottom:14px;">Medios de pago aceptados</div>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px;">
+        <!-- Visa -->
+        <div style="background:#fff; border-radius:6px; padding:5px 10px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 60 20" width="42" height="14"><text x="0" y="16" font-family="Arial" font-weight="700" font-size="16" fill="#1A1F71">VISA</text></svg>
+        </div>
+        <!-- Mastercard -->
+        <div style="background:#fff; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 38 24" width="38" height="24"><circle cx="14" cy="12" r="10" fill="#EB001B"/><circle cx="24" cy="12" r="10" fill="#F79E1B"/><path d="M19 5.8a10 10 0 0 1 0 12.4A10 10 0 0 1 19 5.8z" fill="#FF5F00"/></svg>
+        </div>
+        <!-- Amex -->
+        <div style="background:#016FD0; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 60 16" width="42" height="12"><text x="0" y="13" font-family="Arial" font-weight="700" font-size="11" fill="#fff">AMEX</text></svg>
+        </div>
+        <!-- Cabal -->
+        <div style="background:#fff; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 60 20" width="40" height="14"><text x="0" y="15" font-family="Arial" font-weight="700" font-size="13" fill="#0066CC">CABAL</text></svg>
+        </div>
+        <!-- Naranja -->
+        <div style="background:#FF6200; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 70 18" width="48" height="13"><text x="0" y="14" font-family="Arial" font-weight="700" font-size="12" fill="#fff">Naranja</text></svg>
+        </div>
+        <!-- Maestro -->
+        <div style="background:#fff; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 38 24" width="34" height="22"><circle cx="14" cy="12" r="10" fill="#0099DF"/><circle cx="24" cy="12" r="10" fill="#ED0006"/><path d="M19 5.8a10 10 0 0 1 0 12.4A10 10 0 0 1 19 5.8z" fill="#7001A6"/></svg>
+        </div>
+        <!-- Visa Débito -->
+        <div style="background:#fff; border-radius:6px; padding:4px 6px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 60 14" width="36" height="10"><text x="0" y="11" font-family="Arial" font-weight="700" font-size="11" fill="#1A1F71">VISA</text></svg>
+          <span style="font-size:6px; color:#1A1F71; font-family:Arial; font-weight:600; letter-spacing:0.5px;">DÉBITO</span>
+        </div>
+        <!-- MP -->
+        <div style="background:#009EE3; border-radius:6px; padding:5px 8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+          <svg viewBox="0 0 60 18" width="40" height="13"><text x="0" y="14" font-family="Arial" font-weight="700" font-size="11" fill="#fff">MP</text></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Fiscal -->
+    <div style="margin-top:28px;">
+      <a href="http://qr.afip.gob.ar/?qr=YOUR_QR_CODE" target="_blank" rel="noopener">
+        <img src="https://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="Data Fiscal AFIP" style="width:60px; height:auto; border-radius:4px;">
+      </a>
+      <div style="font-size:0.62em; letter-spacing:1px; color:#6a5840; margin-top:6px;">Datos Fiscales</div>
+    </div>
+
+    <!-- Copyright -->
+    <div style="margin-top:20px; padding-top:20px; border-top: 1px solid rgba(196,168,122,0.15);">
+      <p style="font-size:0.68em; color:#6a5840; letter-spacing:0.5px; margin-bottom:8px;">© 2026 Country Home & Deco · CUIT 20-37951552-6 · Todos los derechos reservados.</p>
+      <p style="font-size:0.65em; color:#6a5840;">Defensa del consumidor · <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" style="color:#8a6840;">Para reclamos ingresá acá</a></p>
+    </div>
+
+    <!-- Legal -->
+    <div style="margin-top: 16px; display:flex; justify-content:center; gap:32px;">
+      <a href="/privacidad.html" style="font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:#8a6840; text-decoration:none;">Política de Privacidad</a>
+      <a href="/terminos.html" style="font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:#8a6840; text-decoration:none;">Términos y Condiciones</a>
+    </div>
+    <div style="height:100px;"></div>
+
   </div>
 </footer>
 
@@ -1287,7 +2519,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.createElement('button');
     btn.className = 'add-to-cart';
     btn.textContent = '+ Agregar al carrito';
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const nameEl = prod.querySelector('.product-name');
       const priceEl = prod.querySelector('.product-price');
       const name = nameEl ? nameEl.textContent.trim() : `Producto ${i+1}`;
@@ -1300,6 +2533,9 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => { btn.textContent = '+ Agregar al carrito'; btn.classList.remove('added'); }, 1800);
     });
     info.appendChild(btn);
+
+    // Open product detail modal on card click
+    prod.addEventListener('click', () => openProductModal(prod, i));
   });
 
   // Check payment return from MP
@@ -1345,6 +2581,8 @@ function renderCart() {
   const badge = document.getElementById('cart-badge');
   badge.textContent = count;
   badge.classList.toggle('visible', count > 0);
+  const tnBadge = document.getElementById('tn-badge');
+  if (tnBadge) { tnBadge.textContent = count; tnBadge.classList.toggle('visible', count > 0); }
 
   // Banner envío gratis
   const sub = subtotal();
@@ -1462,7 +2700,11 @@ function getBuyer() {
     name: document.getElementById('f-name').value.trim(),
     phone: document.getElementById('f-phone').value.trim(),
     email: document.getElementById('f-email').value.trim(),
-    address: document.getElementById('f-address').value.trim(),
+    address: [
+      document.getElementById('f-address').value.trim(),
+      document.getElementById('f-floor').value.trim(),
+      document.getElementById('f-building').value.trim()
+    ].filter(Boolean).join(', '),
     city: document.getElementById('f-city').value.trim(),
     province: document.getElementById('f-province').value,
     notes: document.getElementById('f-notes').value.trim()
@@ -1653,6 +2895,173 @@ function showSuccessMP(status) {
 
 function closeSuccess() {
   document.getElementById('success-overlay').classList.remove('open');
+}
+
+// ─── PRODUCT DETAIL MODAL ────────────────────────────────
+let pmPhotos = [], pmIndex = 0, pmProdEl = null, pmProdId = null, pmProdPrice = 0, pmProdName = '';
+
+function openProductModal(prod, idx) {
+  pmProdEl = prod;
+  pmProdId = `prod-${idx}`;
+  pmProdName = prod.querySelector('.product-name')?.textContent.trim() || '';
+  pmProdPrice = parseInt((prod.querySelector('.product-price')?.textContent || '0').replace(/[^0-9]/g, ''));
+  const desc = prod.querySelector('.product-desc')?.textContent.trim() || '';
+  const tag  = prod.querySelector('.product-tag')?.textContent.trim()  || '';
+
+  // Collect photos from thumbnails
+  const thumbEls = prod.querySelectorAll('.thumbnails img');
+  pmPhotos = thumbEls.length > 0
+    ? Array.from(thumbEls).map(t => t.src)
+    : [prod.querySelector('.main-photo')?.src].filter(Boolean);
+  pmIndex = 0;
+
+  document.getElementById('pm-name').textContent  = pmProdName;
+  document.getElementById('pm-price').textContent = prod.querySelector('.product-price')?.textContent.trim() || '';
+  document.getElementById('pm-desc').textContent  = desc;
+  document.getElementById('pm-tag').textContent   = tag;
+
+  // Thumbnail strip
+  const strip = document.getElementById('pm-thumbs');
+  strip.innerHTML = pmPhotos.map((src, i) =>
+    `<img class="pm-thumb${i===0?' active':''}" src="${src}" onclick="pmGoTo(${i})" alt="">`
+  ).join('');
+  strip.style.display = pmPhotos.length > 1 ? 'flex' : 'none';
+
+  pmRefresh();
+
+  // Add to cart button
+  const btn = document.getElementById('pm-add-btn');
+  btn.textContent = '+ Agregar al carrito';
+  btn.classList.remove('added');
+  btn.onclick = () => {
+    fbq('track', 'ViewContent', { content_ids:[pmProdId], content_name:pmProdName, value:pmProdPrice, currency:'ARS', content_type:'product' });
+    addToCart(pmProdId, pmProdName, pmProdPrice);
+    btn.textContent = 'Agregado ✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = '+ Agregar al carrito'; btn.classList.remove('added'); }, 2000);
+  };
+
+  // Reset description to visible
+  document.getElementById('pm-desc').classList.remove('hidden');
+  document.getElementById('pm-section-icon').textContent = '−';
+
+  document.getElementById('product-modal').classList.add('open');
+  document.getElementById('product-modal').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProductModal() {
+  document.getElementById('product-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function pmToggleDesc() {
+  const desc = document.getElementById('pm-desc');
+  const icon = document.getElementById('pm-section-icon');
+  const hidden = desc.classList.toggle('hidden');
+  icon.textContent = hidden ? '+' : '−';
+}
+
+function pmRefresh() {
+  document.getElementById('pm-photo').src = pmPhotos[pmIndex];
+  document.getElementById('pm-counter').textContent = `${pmIndex + 1} / ${pmPhotos.length}`;
+  const show = pmPhotos.length > 1;
+  document.getElementById('pm-prev').style.display = show ? 'flex' : 'none';
+  document.getElementById('pm-next').style.display = show ? 'flex' : 'none';
+  document.getElementById('pm-counter').style.display = show ? 'block' : 'none';
+  document.querySelectorAll('.pm-thumb').forEach((t,i) => t.classList.toggle('active', i === pmIndex));
+}
+
+function pmNav(dir) {
+  pmIndex = (pmIndex + dir + pmPhotos.length) % pmPhotos.length;
+  pmRefresh();
+}
+
+function pmGoTo(i) { pmIndex = i; pmRefresh(); }
+
+// Touch swipe on product modal photo
+(function() {
+  let sx = 0;
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrap = document.getElementById('pm-photo-wrap');
+    if (!wrap) return;
+    wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', e => {
+      const diff = sx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) pmNav(diff > 0 ? 1 : -1);
+    }, { passive: true });
+  });
+})();
+
+// ─── NAV DRAWER ──────────────────────────────────────────
+function toggleDrawer() {
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('nav-drawer-overlay');
+  const isOpen = drawer.classList.contains('open');
+  if (isOpen) closeDrawer();
+  else { drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+}
+function closeDrawer() {
+  document.getElementById('nav-drawer').classList.remove('open');
+  document.getElementById('nav-drawer-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── SECTION SWITCHING ───────────────────────────────────
+function showSection(name) {
+  ['portada','coleccion','nosotros','contacto'].forEach(s => {
+    document.getElementById('section-'+s).classList.toggle('active', s === name);
+  });
+  document.querySelectorAll('.nav-drawer-item').forEach(t => {
+    t.classList.toggle('active', t.getAttribute('data-section') === name);
+  });
+  if (name === 'coleccion') resetCatFilter();
+  if (name !== 'coleccion') {
+    document.getElementById('coleccion-submenu')?.classList.remove('open');
+    document.getElementById('col-chevron')?.classList.remove('open');
+  }
+  closeDrawer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── COLECCIÓN DRAWER SUBMENU ────────────────────────────
+function toggleColeccionMenu() {
+  const sub = document.getElementById('coleccion-submenu');
+  const chev = document.getElementById('col-chevron');
+  sub.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function goToColeccion(cat) {
+  showSection('coleccion');
+  if (cat) filterCat(cat);
+}
+
+// ─── COLECCIÓN SUBNAV FILTER ─────────────────────────────
+let _activeCat = null;
+
+function getProductCat(p) {
+  const tag = p.querySelector('.product-tag')?.textContent.trim() || '';
+  if (tag === 'Mesa & Cocina') return 'mesa';
+  if (['Ambiente', 'Aromas', 'Bundle'].includes(tag)) return 'ambiente';
+  return 'decoracion';
+}
+
+function filterCat(cat) {
+  if (_activeCat === cat) { resetCatFilter(); return; }
+  _activeCat = cat;
+  document.querySelectorAll('.csn-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('data-cat') === cat)
+  );
+  document.querySelectorAll('#section-coleccion .product').forEach(p => {
+    p.style.display = getProductCat(p) === cat ? '' : 'none';
+  });
+}
+
+function resetCatFilter() {
+  _activeCat = null;
+  document.querySelectorAll('.csn-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#section-coleccion .product').forEach(p => p.style.display = '');
 }
 </script>
 
